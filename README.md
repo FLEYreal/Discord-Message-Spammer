@@ -20,8 +20,7 @@
 
 ## На скриншоте видно как его получить
 
-<img src="./README/tutorial_1_README.png" alt="Скриншот 1" width="200px"/>
-<img src="./README/tutorial_2_README.png" alt="Скриншот 2" width="200px"/>
+<img src="./README/tutorial_1_README.png" alt="Скриншот 1" width="480px"/> <img src="./README/tutorial_2_README.png" alt="Скриншот 2" width="480px"/>
 
 5. Запустите бота "npm start"
 
