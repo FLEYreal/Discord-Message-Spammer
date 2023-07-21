@@ -1,0 +1,1 @@
+# Этот бот создан командой [StormShop](https://nitro-storm.ru)!
