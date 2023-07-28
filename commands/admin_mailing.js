@@ -3,12 +3,12 @@ const discord = require('discord.js');
 const { ActionRowBuilder, EmbedBuilder, ButtonBuilder } = require("discord.js");
 const glob = require("../global");
 
-class CommandMailingListRU extends dc.DiscordCommand {
+class CommandMailingListEN extends dc.DiscordCommand {
     // constructor
     constructor(cmdName, cmdDescription) { 
         super(cmdName, cmdDescription)
 
-        this._registerAction("cancel-button-ru");
+        this._registerAction("cancel-button-en");
     }
 
     /**
@@ -18,7 +18,7 @@ class CommandMailingListRU extends dc.DiscordCommand {
      */
     async onActionPress(interaction, actionid) {
         switch (actionid) {
-            case "cancel-button-ru": {
+            case "cancel-button-en": {
                 let i = 0;
                 
                 // glob.getMessageList().forEach((msg) => {
@@ -33,8 +33,6 @@ class CommandMailingListRU extends dc.DiscordCommand {
                     var obj = glob.getMessageList()[i];
 
                     if (obj[0] == interaction.user.id) {
-                        obj[2].deleteReply();
-
                         glob.getMessageList().splice(i, 1);
                     }
 
@@ -42,7 +40,7 @@ class CommandMailingListRU extends dc.DiscordCommand {
                 }
 
                 interaction.reply({
-                    "content": "Рассылка была отменена",
+                    "content": "Mailing action has been canceled",
                     "ephemeral": true
                 })
 
@@ -50,6 +48,8 @@ class CommandMailingListRU extends dc.DiscordCommand {
             }
         }
     }
+
+
     /**
     * **Run command.**
     * @param {discord.Interaction} interaction Interaction.
@@ -64,7 +64,7 @@ class CommandMailingListRU extends dc.DiscordCommand {
 
             if (obj[0] == interaction.user.id) {
                 interaction.reply({
-                    "content": "**Вы уже начали процесс отправки рассылки!**\nНажмите на `Отменить действие` в предыдущем сообщении, чтобы отменить рассылку.",
+                    "content": "**You already started mailing process!**\nClick on `Cancel Mailing` button in previous message to cancel mailing process.",
                     "ephemeral": true
                 })
                 
@@ -73,8 +73,8 @@ class CommandMailingListRU extends dc.DiscordCommand {
 
             i++;
         }
-        
-        let attachment = interaction.options.getAttachment("вложение");
+
+        let attachment = interaction.options.getAttachment("attachment");
 
         var data = {
             
@@ -86,22 +86,22 @@ class CommandMailingListRU extends dc.DiscordCommand {
                 "name": attachment.filename
             }];
         }
-        
-        glob.getMessageList().push([interaction.user.id, data, interaction, null, "ru"]);
+
+        glob.getMessageList().push([interaction.user.id, data, interaction]);
 
         const row = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                    .setCustomId('cancel-button-ru')
+                    .setCustomId('cancel-button-en')
                     .setStyle(discord.ButtonStyle.Danger)
-                    .setLabel('Отменить действие'),
+                    .setLabel('Cancel Mailing'),
         )
 
         await interaction.reply({
             "embeds": [
                 {
                   "type": "rich",
-                  "title": `Отправьте сообщение, которое необходимо разослать`,
+                  "title": `Send message you need to send`,
                   "description": "",
                   "color": 0x39AECF
                 }
@@ -114,4 +114,4 @@ class CommandMailingListRU extends dc.DiscordCommand {
     }
 }
 
-module.exports = CommandMailingListRU;
+module.exports = CommandMailingListEN;

@@ -4,14 +4,20 @@
         "description": "Отправить сообщение всем пользователям на сервере в ЛС",
         "options": [
             {
-                "name": "текст",
-                "description": "Название подписки",
-                "required": true,
-                "type": 3
-            },
-            {
                 "name": "вложение",
                 "description": "Файл, который вы хотите отправить",
+                "required": false,
+                "type": 11
+            }
+        ]
+    },
+    {
+        "name": "mailing",
+        "description": "Send message to all users in the guild into DM",
+        "options": [
+            {
+                "name": "attachment",
+                "description": "Attachment you want to sent",
                 "required": false,
                 "type": 11
             }

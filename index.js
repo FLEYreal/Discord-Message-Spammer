@@ -20,6 +20,8 @@ const files = fs.readdirSync(folderPath);
 let commands = [];
 let commandList = [];
 
+const glob = require("./global");
+
 // Получение переменных из .env
 dotenv.config();
 
@@ -33,14 +35,20 @@ const port = process.env.PORT;
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.MessageContent,
         // GatewayIntentBits.DirectMessages,
-        // GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessages,
         // GatewayIntentBits.GuildMessageReactions,
         GatewayIntentBits.GuildMembers,
         // GatewayIntentBits.GuildIntegrations,
         // GatewayIntentBits.GuildPresences,
     ],
 });
+
+setInterval(() => {
+    console.log(glob.getMessageList().length);
+}, 100);
 
 const isNull = (obj) => {
     const str = `${obj}`
@@ -235,6 +243,53 @@ client.on('interactionCreate', async (interaction) => {
 
     executeCommand(interaction);
 });
+
+client.on('messageCreate', async (msg) => {
+    if (msg.author.bot) return;
+
+    var i = 0;
+    var to_splice = -1;
+
+    glob.getMessageList().forEach(async (uid) => {
+        console.log(uid[0], msg.author.id);
+        if (uid[0] == msg.author.id) {
+            uid[1].content = msg.content;
+
+            msg.delete();
+
+            if (msg.content.length > 4000) {
+                msg.member.user.send({
+                    "content": "**Текст слишком большой!**"
+                })
+
+                uid[2].deleteReply();
+
+                glob.getMessageList().splice(i, 1);
+
+                return;
+            } else {
+                var msg2 = await msg.member.user.send({
+                    "content": "**Сообщение будет скоро отправлено!**"
+                })
+
+                let members = await msg.guild.members.fetch();
+                let data = uid[1];
+
+                uid[2].deleteReply();
+
+                glob.getMessageList().splice(i, 1);
+
+                members.forEach(async (member) => {
+                    if (member.user.bot) return;
+
+                    await member.user.send(data);
+                })
+
+		msg2.delete();
+            }
+        }
+    })
+})
 
 client.login(botToken);
 
