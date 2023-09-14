@@ -8,11 +8,11 @@ import {AttachmentBuilder, PermissionsBitField} from "discord.js";
 import {celebrate, Joi, Segments} from "celebrate";
 import {mail, toChannel, toRole} from "./discordBot/botFunctions";
 
-dotenv.config({path: '.env.dev'});
+dotenv.config({path: '.env'});
 
 const app = express();
 const token = process.env.TOKEN!;
-const port = process.env.PORT;
+const port = process.env.PORT || '3000';
 const isApiKeyOn = process.env.API_KEY_CHECK;
 const apiKey = process.env.API_KEY;
 
@@ -45,9 +45,25 @@ type SendBody = {
             message: Joi.string().required()
         })
     }), async (req, res) => {
+
         if (isApiKeyOn && req.cookies.API_KEY !== apiKey) { // simplest way to protect the endpoint. you're able to switch API_KEY_CHECK and change API_KEY in .env
-            res.send('wrong api key');
-            return;
+
+            if(!req.cookies.API_KEY) {
+                return res
+                    .status(400)
+                    .json({
+                        success: false,
+                        message: 'API key is required!'
+                    });
+            }
+            else {
+                return res
+                    .status(400)
+                    .json({
+                        success: false,
+                        message: 'You have sent a wrong API Key!'
+                    });
+            }
         }
 
         const {
@@ -58,6 +74,18 @@ type SendBody = {
             useInternalList,
             message
         } = req.body as SendBody;
+
+        // Checks of the fields
+        if(!funcType) { return res.status(400).json({ success: false, message: 'The "funcType" field is missing! This field defines the type of the operation. The type of the field is: \'mail\' | \'toRole\' | \'toChannel\''});}
+        if(
+            funcType !== 'mail' &&
+            funcType !== 'toRole' &&
+            funcType !== 'toChannel'
+        ) { return res.status(400).json({ success: false, message: 'The "funcType" has wrong type! Available types of this field are: \'mail\' | \'toRole\' | \'toChannel\''});}
+        if(!guildId) { return res.status(400).json({ success: false, message: 'The "guildId" field is missing! This is a discord server ID. The type of the field is string'});}
+        if(!channelId && funcType === 'toChannel') { return res.status(400).json({ success: false, message: 'The "toChannel" field is missing! This is an ID of the channel in discord server. The type of the field is string'});}
+        if(!roleId && funcType === 'toRole') { return res.status(400).json({ success: false, message: 'The "roleId" field is missing! This is an ID of the role in discord server. The type of the field is string'});}
+        if(!message) { return res.status(400).json({ success: false, message: 'The "message" field is missing! This is a message to send. The type of the field is string'});}
 
         let files: AttachmentBuilder[] = [];
 
@@ -82,10 +110,13 @@ type SendBody = {
                 await toChannel(guild, message, files, members!);
         }
 
-        res.send('message sent');
+        res
+            .status(200)
+            .json({
+                success: true,
+                message: 'Message was successfully sent!'
+            });
     });
 
     app.listen(port, () => console.log("API running on port " + port));
 })();
-
-
