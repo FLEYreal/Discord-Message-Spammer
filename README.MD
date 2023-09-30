@@ -39,6 +39,7 @@ This is a little documentation to basics of using this script.
 ### Mailing to everyone
 1. To mail your message type command /mailing (/рассылка).
 2. Then you'll see the message (Only you can see it) that tells you to send message you want to mail to everyone.
+
     2.1 It also contains "Cancel" button so if you don't want to send message anymore - cancel it.
 
     2.2 The reason it's made this way is because arguments of the application commands don't let send more than 1 file at a time.
