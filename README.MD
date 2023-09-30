@@ -60,10 +60,12 @@ The bot contains just one endpoint which is responsible for sending the messages
 ### Body:
 ```typescript
 interface SendBody = {
-    // This property is responsible for the type of mailing, sending to everyone "mail", sending to specific role "toRole" or to members of the channel "toChannel"
+    // This property is responsible for the type of mailing, sending to everyone "mail", 
+    // sending to specific role "toRole" or to members of the channel "toChannel"
     funcType: 'mail' | 'toRole' | 'toChannel'
 
-    // This property is and ID of the discord server the bot will work. We don't want the bot to mail to every discord server it's located in at a time, isn't it?
+    // This property is and ID of the discord server the bot will work. We don't want the bot 
+    // to mail to every discord server it's located in at a time, isn't it?
     guildId: string
 
     // Optional property, this is 'toChannel' specific property, this is an id of the channel.
@@ -74,10 +76,52 @@ interface SendBody = {
 
     // Most valuable property - the message to send.
     message: string
+
+    // Optional property, if true - sends messages of users whose ids are in the array in file "usersForMailing.json".
+    // You can add your ids to this file and send messages to only those users.
+    useInternalList?: false
 }
 ```
 ### Files:
 You can attach any file to your request and it will be sent as an attachment.
+
+## API keys
+If you want to restrict your API from being open to everyone you can create and enable your api key.
+API key is sort of password to your api endpoints which is known by only you and if you expose it, everyone will be able to use API even with enabled api checking.
+You can always change the api key so it might not be that big of a trouble.
+
+You might notice undefined values in ".env" file when you were setting up the bot, so, these values are for this needs.
+
+```env
+API_KEY_CHECK=
+```
+Add any string, number, boolean to this value to enable api checking and leave this empty to disable api checking.
+
+```env
+API_KEY=
+```
+Add the value of api key here.
+
+## Usage of API keys
+Now, after we enabled api checking and have api key in our ".env". How do we use it in endpoints? If you just send the request without API key - you will get:
+### Code: 400
+### Body:
+```json
+{
+    "success": false,
+    "message": "API key is required!"
+}
+```
+
+You have to put API key in your cookies. It has to be called "API_KEY". If you have wrong API KEY (or someone else?) you will get:
+### Code: 400
+### Body:
+```json
+{
+    "success": false,
+    "message": "You have sent a wrong API Key!"
+}
+```
 
 ## Important!
 This bot is provided solely for informational purposes. I am not responsible for how it is used or the actions that users may take with its help. Please be aware that the bot is made solely for informational purposes! All responsibility for interacting with this bot lies with the user!
