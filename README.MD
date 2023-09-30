@@ -17,19 +17,19 @@ Application is made on NodeJS so to use the script, you need to download it from
 ```shell
 cd C:/path/to/directory
 ```
-3. Inside of the console, after entering the bot's folder, type this command to install all the dependencies:
+2. Inside of the console, after entering the bot's folder, type this command to install all the dependencies:
 ```shell
 npm install
 ```
-4. In the file ".env" (or ".env.production") fill necessery data for the script to work. 
+3. In the file ".env" (or ".env.production") fill necessery data for the script to work. 
     - All the settings are optional expect "TOKEN". This is the token of your discord bot without which script won't be able to connect to discord using exactly your bot.
 
-5. To launch the bot use:
+4. To launch the bot use:
 ```shell
 npm start
 ```
 
-6. To Stop the application, you need yo use "ctrl + C" keys.
+5. To Stop the application, you need yo use "ctrl + C" keys.
 
 # A little Documentation
 This is a little documentation to basics of using this script. 
