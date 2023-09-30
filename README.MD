@@ -40,6 +40,7 @@ This is a little documentation to basics of using this script.
 1. To mail your message type command /mailing (/рассылка).
 2. Then you'll see the message (Only you can see it) that tells you to send message you want to mail to everyone.
     2.1 It also contains "Cancel" button so if you don't want to send message anymore - cancel it.
+
     2.2 The reason it's made this way is because arguments of the application commands don't let send more than 1 file at a time.
 3. Message is sent, you're happy!
  
@@ -55,9 +56,9 @@ It's the same process as with Mailing to everyone but the command to do it is "/
 If you don't know what API is, I really recommend to read about it. The best way to test it out is Postman.
 The bot contains just one endpoint which is responsible for sending the messages to users.
 
-### Endpoint: /send
-### Method: POST
-### Body:
+<b>Endpoint: /send</b>
+<b>Method: POST</b>
+<b>Body:</b>
 ```typescript
 interface SendBody = {
     // This property is responsible for the type of mailing, sending to everyone "mail", 
@@ -104,8 +105,8 @@ Add the value of api key here.
 
 ## Usage of API keys
 Now, after we enabled api checking and have api key in our ".env". How do we use it in endpoints? If you just send the request without API key - you will get:
-### Code: 400
-### Body:
+<b>Code: 400</b>
+<b>Body:</b>
 ```json
 {
     "success": false,
@@ -114,8 +115,8 @@ Now, after we enabled api checking and have api key in our ".env". How do we use
 ```
 
 You have to put API key in your cookies. It has to be called "API_KEY". If you have wrong API KEY (or someone else?) you will get:
-### Code: 400
-### Body:
+<b>Code: 400</b>
+<b>Body:</b>
 ```json
 {
     "success": false,
