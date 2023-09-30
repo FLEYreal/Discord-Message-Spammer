@@ -56,8 +56,11 @@ It's the same process as with Mailing to everyone but the command to do it is "/
 If you don't know what API is, I really recommend to read about it. The best way to test it out is Postman.
 The bot contains just one endpoint which is responsible for sending the messages to users.
 
+
 <b>Endpoint: /send</b>
+
 <b>Method: POST</b>
+
 <b>Body:</b>
 ```typescript
 interface SendBody = {
@@ -105,7 +108,9 @@ Add the value of api key here.
 
 ## Usage of API keys
 Now, after we enabled api checking and have api key in our ".env". How do we use it in endpoints? If you just send the request without API key - you will get:
+
 <b>Code: 400</b>
+
 <b>Body:</b>
 ```json
 {
@@ -115,7 +120,9 @@ Now, after we enabled api checking and have api key in our ".env". How do we use
 ```
 
 You have to put API key in your cookies. It has to be called "API_KEY". If you have wrong API KEY (or someone else?) you will get:
+
 <b>Code: 400</b>
+
 <b>Body:</b>
 ```json
 {
